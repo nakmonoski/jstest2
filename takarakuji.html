@@ -1,0 +1,93 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title></title>
+</head>
+<body>
+宝くじ数字作成<BR>
+
+	<form name="form1">
+		<select name="kind">
+			<option value="none">選択してください</option>
+			<option value="loto7">ロト７</option>
+			<option value="loto6">ロト６</option>
+			<option value="miniloto">ミニロト</option>
+			<!--option value="numbers4">ナンバーズ４</option-->
+			<!--option value="numbers3">ナンバーズ３</option-->
+		</select>
+	</form>
+
+	<button onclick="addOption()">GO</button>
+	
+	<script language="JavaScript">
+	
+	// プルダウンメニューで選択、ボタン押下で実行
+
+	function addOption() {
+		var kujiType = 0;
+		var kujiType = 0;
+		var kujiNumber = 0;
+
+		//select要素の取得
+		const kind = document.form1.kind;
+		const selectNum = kind.selectedIndex;
+		//alert(selectNum);
+			
+		if( selectNum == 1 ) {
+			kujiType = 1;
+			kujiMax =  37;
+			kujiNumber = 7;
+		} else if( selectNum == 2 ) {
+			kujiType = 1;
+			kujiMax =  43;
+			kujiNumber = 6;
+		} else if( selectNum == 3 ) {
+			kujiType = 1;
+			kujiMax =  31;
+			kujiNumber = 5;
+		} else if( selectNum == 4 ) {
+			kujiType = 2;
+			kujiMax =  10;
+			kujiNumber = 4;
+		} else if( selectNum == 5 ) {
+			kujiType = 2;
+			kujiMax =  10;
+			kujiNumber = 3;
+		}
+
+		//type=1 数値の数 数値重複無し
+		//type=2 桁数　数値重複有り・・・これは後で
+
+		myData = new Array(kujiMax - 1);
+		for (i=0; i<kujiMax; i++) myData[i] = i+1; // myData[0～kujiMax-1] に 1～31を順次セット
+		for (i=0; i<500; i++){ // 500回 myData の内容をシャッフルする
+		   myA = Math.floor( Math.random() * (kujiMax - 1) ); // 0～kujiMax-1を決める
+		   myB = Math.floor( Math.random() * (kujiMax - 1) ); // 0～kujiMax-1 を決める
+		   myBackup = myData[myA];      // myData の myA番目とmyB番目の内容を入れ替える
+		   myData[myA] = myData[myB];
+		   myData[myB] = myBackup;
+		}
+		myCard = new Array(kujiNumber);
+		for (i=0; i<kujiNumber; i++) myCard[i] = myData[i]; // myDataの最初のkujiNumber個を取り出す
+		for (i=0; i<(kujiNumber-1); i++){
+		   for (j=i+1; j<kujiNumber; j++){
+		      if (myCard[i] > myCard[j]){  // 上の方がでかい？
+		         myBackup = myCard[i];     // 入れ替える
+		         myCard[i] = myCard[j];
+		         myCard[j] = myBackup;
+		      }
+		   }
+		}
+
+		// 表示
+		for(i=0; i<kujiNumber; i++){
+		   document.write("[",myCard[i],"]");
+		   if (i < (kujiNumber-1)) document.write("-");
+		}
+	}
+	</script>
+
+</body>
+</html>
+
